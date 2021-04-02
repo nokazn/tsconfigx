@@ -1,0 +1,5 @@
+# tsconfigx
+
+## License
+
+MIT
