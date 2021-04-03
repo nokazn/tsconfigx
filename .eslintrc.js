@@ -44,7 +44,7 @@ module.exports = {
         json: 'never',
       },
     ],
-    'import/no-unresolved': [WARN, { commonjs: true, amd: true }],
+    'import/no-unresolved': [ALLOW],
     'import/no-extraneous-dependencies': [WARN, { devDependencies: true }],
     'import/prefer-default-export': ALLOW,
 
@@ -55,5 +55,6 @@ module.exports = {
     semi: ALLOW,
     '@typescript-eslint/semi': [ERROR],
     '@typescript-eslint/member-delimiter-style': ERROR,
+    '@typescript-eslint/no-unsafe-return': ALLOW,
   },
 };
