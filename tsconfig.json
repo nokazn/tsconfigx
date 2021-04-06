@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
     // "incremental": true,
-    "target": "es2019",
+    "target": "es2020",
     "module": "commonjs",
     // "lib": [],
-    // "allowJs": true,
+    "allowJs": true,
     // "checkJs": true,
     // "jsx": "preserve",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     // "outFile": "./",
-    "outDir": "./dist/",
-    "rootDir": "./src/",
+    "outDir": "./lib/",
+    "rootDir": "./",
     // "composite": true,
     // "tsBuildInfoFile": "./",
     // "removeComments": true,
@@ -62,10 +62,14 @@
   },
   "include": [
     "./src/**/*.ts",
-    "./tests/**/*.ts",
+    "./test/**/*.ts",
+    "babel.config.js",
+    "jest.config.js",
+    ".eslintrc.js",
   ],
   "exclude": [
     "node_modules/",
-    "dist/"
-  ]
+    "lib",
+    "esm"
+  ],
 }
