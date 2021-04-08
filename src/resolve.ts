@@ -7,17 +7,18 @@ type StatsType = 'file' | 'dir';
 
 function resolveDir(cwd: string): Promise<string> {
   const fullPath = path.resolve(cwd, TS_CONFIG);
-  return stat(fullPath)
-    .then((stats) => {
-      if (isFile(stats)) {
-        return fullPath;
-      }
-      const parentDir = path.dirname(fullPath);
-      if (parentDir !== cwd) {
-        return resolveDir(parentDir);
-      }
-      throw new TypeError(`Cannot find ${TS_CONFIG} in directories higher than the specified directory: ${cwd}`);
-    });
+  return stat(fullPath).then((stats) => {
+    if (isFile(stats)) {
+      return fullPath;
+    }
+    const parentDir = path.dirname(fullPath);
+    if (parentDir !== cwd) {
+      return resolveDir(parentDir);
+    }
+    throw new TypeError(
+      `Cannot find ${TS_CONFIG} in directories higher than the specified directory: ${cwd}`,
+    );
+  });
 }
 
 function resolveDirSync(cwd: string): string {
@@ -30,7 +31,9 @@ function resolveDirSync(cwd: string): string {
   if (parentDir !== cwd) {
     return resolveDirSync(parentDir);
   }
-  throw new TypeError(`Cannot find ${TS_CONFIG} in directories higher than the specified directory: ${cwd}`);
+  throw new TypeError(
+    `Cannot find ${TS_CONFIG} in directories higher than the specified directory: ${cwd}`,
+  );
 }
 
 /**
@@ -42,27 +45,27 @@ export async function resolve(cwd: string, fileName?: string): Promise<string> {
   }
 
   const specifiedPath = path.resolve(cwd, fileName);
-  const [type, tsconfigPath] = await stat(specifiedPath)
-    .then<[StatsType, string]>((stats) => {
-      if (isFile(stats)) {
-        return ['file', specifiedPath];
-      }
-      if (isDir(stats)) {
-        return ['dir',path.join(specifiedPath, TS_CONFIG)];
-      }
-      throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
-    });
+  const [type, tsconfigPath] = await stat(specifiedPath).then<[StatsType, string]>((stats) => {
+    if (isFile(stats)) {
+      return ['file', specifiedPath];
+    }
+    if (isDir(stats)) {
+      return ['dir', path.join(specifiedPath, TS_CONFIG)];
+    }
+    throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
+  });
   if (type === 'file') {
     return tsconfigPath;
   }
 
-  return stat(tsconfigPath)
-    .then((stats) => {
-      if (isFile(stats)) {
-        return tsconfigPath;
-      }
-      throw new TypeError(`Cannot find ${TS_CONFIG} file at the specified directory: ${specifiedPath}`);
-    });
+  return stat(tsconfigPath).then((stats) => {
+    if (isFile(stats)) {
+      return tsconfigPath;
+    }
+    throw new TypeError(
+      `Cannot find ${TS_CONFIG} file at the specified directory: ${specifiedPath}`,
+    );
+  });
 }
 
 export function resolveSync(cwd: string, fileName?: string): string {
@@ -82,7 +85,9 @@ export function resolveSync(cwd: string, fileName?: string): string {
     if (isFile(tsconfigStats)) {
       return tsconfigPath;
     }
-    throw new TypeError(`Cannot find ${TS_CONFIG} file at the specified directory: ${specifiedPath}`);
+    throw new TypeError(
+      `Cannot find ${TS_CONFIG} file at the specified directory: ${specifiedPath}`,
+    );
   }
   throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
 }

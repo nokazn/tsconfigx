@@ -3,12 +3,14 @@ import type { Stats } from 'fs';
 import { promisify } from 'util';
 
 export function stat(filePath: string): Promise<Stats> {
-  return promisify<Stats>(() => fs.stat(filePath, (err, stats) => {
-    if (err != null) {
-      throw err;
-    }
-    return stats;
-  }))();
+  return promisify<Stats>(() =>
+    fs.stat(filePath, (err, stats) => {
+      if (err != null) {
+        throw err;
+      }
+      return stats;
+    }),
+  )();
 }
 
 export function statSync(filePath: string): Stats {

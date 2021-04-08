@@ -56,5 +56,7 @@ module.exports = {
     '@typescript-eslint/semi': [ERROR],
     '@typescript-eslint/member-delimiter-style': ERROR,
     '@typescript-eslint/no-unsafe-return': ALLOW,
+    '@typescript-eslint/no-unsafe-assignment': ALLOW,
+    '@typescript-eslint/no-unsafe-call': ALLOW,
   },
 };

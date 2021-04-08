@@ -11,6 +11,7 @@ describe('parse', () => {
       \n
     `),
     ).toEqual({});
+    expect(parse('{}')).toEqual({});
   });
 
   it('tsconfig with pure JSON style', () => {
@@ -136,7 +137,7 @@ describe('parse', () => {
     });
   });
 
-  it('tsconfig with dangling commas', () => {
+  it('tsconfig with trailing commas', () => {
     expect(
       parse(`
       {
@@ -165,5 +166,68 @@ describe('parse', () => {
       },
       exclude: ['node_modules/', 'dist/'],
     });
+  });
+
+  it('tsconfig with invalid commas at the end of file', () => {
+    expect(() =>
+      parse(`
+      {
+        "compilerOptions": {
+          "target": "es5",
+          "module": "commonjs",
+          "strict": true,
+          "esModuleInterop": true,
+          "skipLibCheck": true,
+          "forceConsistentCasingInFileNames": true,
+        },
+        "exclude": [
+          "node_modules/",
+          "dist/",
+        ],
+      },
+    `),
+    ).toThrow(/Unexpected token , in JSON at position/);
+  });
+
+  it('tsconfig with missing commas', () => {
+    expect(() =>
+      parse(`
+      {
+        "compilerOptions": {
+          "target": "es5",
+          "module": "commonjs",
+          "strict": true,
+          "esModuleInterop": true,
+          "skipLibCheck": true,
+          "forceConsistentCasingInFileNames": true,
+        },
+        "exclude": [
+          "node_modules/",
+          "dist/",
+        ],
+      },
+    `),
+    ).toThrow(/Unexpected token , in JSON at position/);
+  });
+
+  it('invalid tsconfig', () => {
+    expect(() =>
+      parse(`
+      {
+        "compilerOptions": {
+          "target": "es5",
+          "module": "commonjs",
+          "strict": true,
+          "esModuleInterop": true
+          "skipLibCheck": true,
+          "forceConsistentCasingInFileNames": true,
+        },
+        "exclude": [
+          "node_modules/",
+          "dist/",
+        ],
+      }
+    `),
+    ).toThrow(/Unexpected string in JSON at position/);
   });
 });

@@ -41,7 +41,11 @@
     "build:esm": "rimraf dist/ && tsc -p ./tsconfig.esm.json",
     "prepublish": "yarn build:cjs && yarn build:esm"
   },
-  "dependencies": {},
+  "dependencies": {
+    "strip-bom": "^4.0.0",
+    "strip-json-comments": "^3.1.1",
+    "strip-json-trailing-commas": "^1.0.1"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",

@@ -1,8 +1,9 @@
 import stripBom from 'strip-bom';
-import * as JSONC from 'jsonc-parser';
+import stripJsonComments from 'strip-json-comments';
+import stripJsonTrailingCommas from 'strip-json-trailing-commas';
 
 // TODO: Return type
-export function parse(content: string): object {
-  const headlessContent = stripBom(content);
-  return /^\s*$/.test(headlessContent) ? {} : JSONC.parse(headlessContent);
+export function parse(jsonc: string): object {
+  const json = stripJsonTrailingCommas(stripJsonComments(stripBom(jsonc)));
+  return /^\s*$/.test(json) ? {} : JSON.parse(json);
 }
