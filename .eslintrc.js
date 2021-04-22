@@ -30,6 +30,7 @@ module.exports = {
     indent: [ERROR, 2, { SwitchCase: 1 }],
     'lines-between-class-members': ALLOW,
     'no-console': [WARN, { allow: ['info', 'warn', 'error'] }],
+    'no-undef': ALLOW,
 
     /**
      * eslint-plugin-import
