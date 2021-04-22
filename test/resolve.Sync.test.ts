@@ -85,6 +85,20 @@ describe('resolveSync', () => {
         }),
       ).toBe(relativePath('./fixtures/nested/tsconfig.build.json'));
     });
+
+    it('cwd is specified as a directory in nested/1/2/3/4', () => {
+      expect(resolveSync(relativePath('./fixtures/nested/1/2/3/4'))).toBe(
+        relativePath('./fixtures/nested/1/2/tsconfig.json'),
+      );
+    });
+
+    it('A different file name is specified in options in nested/1/2/3/4', () => {
+      expect(
+        resolveSync(relativePath('./fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toBe(relativePath('./fixtures/nested/1/2/3/4/tsconfig.build.json'));
+    });
   });
 
   describe('set recursive option to false in a nested directory', () => {
@@ -132,16 +146,24 @@ describe('resolveSync', () => {
         }),
       ).toThrow(/The specified file does not exist: /);
     });
+
+    it('cwd is specified as a directory in nested/1/2/3/4', () => {
+      expect(() =>
+        resolveSync(relativePath('./fixtures/nested/1/2/3/4'), { recursive: false }),
+      ).toThrow(/The specified file does not exist: /);
+    });
+
+    it('A different file name is specified in options in nested/1/2/3/4', () => {
+      expect(
+        resolveSync(relativePath('./fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+        }),
+      ).toBe(relativePath('./fixtures/nested/1/2/3/4/tsconfig.build.json'));
+    });
   });
 
   describe('invalid', () => {
-    // TODO
-    it('An invalid file name', () => {
-      expect(() => resolveSync(relativePath('./fixtures/different'))).toThrow(
-        /Cannot find tsconfig\.json file at the specified directory: /,
-      );
-    });
-
     it('An invalid file name is specified in cwd', () => {
       expect(() => resolveSync(relativePath('./fixtures/normal/invalid-tsconfig.json'))).toThrow(
         /Cannot find invalid-tsconfig\.json file at the specified directory: /,
