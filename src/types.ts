@@ -3,4 +3,4 @@ export interface Options {
   recursive?: boolean;
 }
 
-export const TS_CONFIG = 'tsconfig.json';
+export type ConfigOptions = object;

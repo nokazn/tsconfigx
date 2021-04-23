@@ -1,33 +1,36 @@
 import { resolve, resolveSync } from '~/resolve';
 import { parse } from '~/parse';
 import { readFile, readFileSync } from '~/utils';
-import { Options } from '~/constants';
+import { Options, ConfigOptions } from '~/types';
+
+interface LoadOptions extends Options {
+  extend?: boolean;
+}
 
 interface LoadResult {
   path: string;
-  origin: string;
-  // TODO
-  config: any;
+  raw: string;
+  config: ConfigOptions;
 }
 
-export async function load(cwd: string, options?: Options): Promise<LoadResult> {
+export async function load(cwd: string, options?: LoadOptions): Promise<LoadResult> {
   const path = await resolve(cwd, options);
-  const origin = await readFile(path);
-  const config = parse(origin);
+  const raw = await readFile(path);
+  const config = parse(raw);
   return {
     path,
-    origin,
+    raw,
     config,
   };
 }
 
-export function loadSync(cwd: string, options?: Options): LoadResult {
+export function loadSync(cwd: string, options?: LoadOptions): LoadResult {
   const path = resolveSync(cwd, options);
-  const origin = readFileSync(path);
-  const config = parse(origin);
+  const raw = readFileSync(path);
+  const config = parse(raw);
   return {
     path,
-    origin,
+    raw,
     config,
   };
 }

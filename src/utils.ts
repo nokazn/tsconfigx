@@ -53,3 +53,10 @@ export function readFileSync(
   const content = fs.readFileSync(filePath, options);
   return typeof content !== 'string' ? content.toString('utf-8') : content;
 }
+
+export function hasProp<T extends string>(
+  obj: unknown,
+  type: T,
+): obj is typeof obj & Record<T, unknown> {
+  return type != null && Object.prototype.hasOwnProperty.call(obj, type);
+}
