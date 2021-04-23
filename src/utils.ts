@@ -40,10 +40,11 @@ export function isJson(filePath: string): boolean {
 export function readFile(
   filePath: string,
   options: ReadFileOptions = defaultReadFileOptions,
-): Promise<string | undefined> {
-  return promisify(fs.readFile)(filePath, options)
-    .then((content) => (typeof content === 'string' ? content : content.toString('utf-8')))
-    .catch(() => undefined);
+): Promise<string> {
+  return promisify(fs.readFile)(filePath, options).then((content) =>
+    typeof content === 'string' ? content : content.toString('utf-8'),
+  );
+  // .catch(() => undefined);
 }
 
 export function readFileSync(
