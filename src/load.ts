@@ -9,7 +9,7 @@ interface LoadResult {
 
 export async function load(cwd: string, options?: LoadOptions): Promise<LoadResult> {
   const path = await resolve(cwd, options);
-  const config = await extendedLoad(path);
+  const config = await extendedLoad(path, undefined, options);
   return {
     path,
     config,
@@ -18,7 +18,7 @@ export async function load(cwd: string, options?: LoadOptions): Promise<LoadResu
 
 export function loadSync(cwd: string, options?: LoadOptions): LoadResult {
   const path = resolveSync(cwd, options);
-  const config = extendedLoadSync(path);
+  const config = extendedLoadSync(path, undefined, options);
   return {
     path,
     config,

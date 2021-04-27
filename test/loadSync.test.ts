@@ -36,6 +36,20 @@ describe('loadSync', () => {
       });
     });
 
+    it('cwd is specified as a file with a different name, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/normal/tsconfig.build.json'), {
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: './tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
+          declaration: true,
+        },
+      });
+    });
+
     it('A file name is specified in options', () => {
       const { path, config } = loadSync(relativePath('fixtures/normal'), {
         fileName: 'tsconfig.json',
@@ -68,6 +82,21 @@ describe('loadSync', () => {
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
+          declaration: true,
+        },
+      });
+    });
+
+    it('A different file name is specified in options, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/normal'), {
+        fileName: 'tsconfig.build.json',
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: './tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
           declaration: true,
         },
       });
@@ -126,6 +155,21 @@ describe('loadSync', () => {
       });
     });
 
+    it('A different file name is specified in options in nested/1, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/nested/1'), {
+        fileName: 'tsconfig.build.json',
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: './tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
+          declaration: true,
+        },
+      });
+    });
+
     it('cwd is specified as a directory in nested/1/2', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'));
       expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
@@ -156,6 +200,21 @@ describe('loadSync', () => {
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
+          declaration: true,
+        },
+      });
+    });
+
+    it('A different file name is specified in options in nested/1/2, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'), {
+        fileName: 'tsconfig.build.json',
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: './tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
           declaration: true,
         },
       });
@@ -196,6 +255,21 @@ describe('loadSync', () => {
       });
     });
 
+    it('A different file name is specified in options in nested/1/2/3, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3'), {
+        fileName: 'tsconfig.build.json',
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: './tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
+          declaration: true,
+        },
+      });
+    });
+
     it('cwd is specified as a directory in nested/1/2/3/4', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'));
       expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
@@ -230,6 +304,21 @@ describe('loadSync', () => {
         },
       });
     });
+
+    it('A different file name is specified in options in nested/1/2/3/4, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+        fileName: 'tsconfig.build.json',
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: '../../tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
+          declaration: true,
+        },
+      });
+    });
   });
 
   describe('set recursive option to false in a nested directory', () => {
@@ -245,7 +334,17 @@ describe('loadSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
+    });
+
+    it('A different file name is specified in options in nested/1, and extends option is set to false', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/nested/1'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+          extends: false,
+        }),
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2', () => {
@@ -270,7 +369,17 @@ describe('loadSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
+    });
+
+    it('A different file name is specified in options in nested/1/2, and extends option is set to false', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/nested/1/2/'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+          extends: false,
+        }),
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3', () => {
@@ -285,7 +394,17 @@ describe('loadSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
+    });
+
+    it('A different file name is specified in options in nested/1/2/3, and extends option is set to false', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/nested/1/2/3'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+          extends: false,
+        }),
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3/4', () => {
@@ -313,6 +432,22 @@ describe('loadSync', () => {
         },
       });
     });
+
+    it('A different file name is specified in options in nested/1/2/3/4, and extends option is set to false', () => {
+      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+        fileName: 'tsconfig.build.json',
+        recursive: false,
+        extends: false,
+      });
+      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
+      expect(config).toEqual({
+        extends: '../../tsconfig.json',
+        compilerOptions: {
+          noEmit: false,
+          declaration: true,
+        },
+      });
+    });
   });
 
   describe('invalid', () => {
@@ -327,7 +462,7 @@ describe('loadSync', () => {
         loadSync(relativePath('fixtures/normal'), {
           fileName: 'invalid-tsconfig.json',
         }),
-      ).toThrow(/Cannot find invalid-tsconfig\.json file at the specified directory: /);
+      ).toThrow(/^Cannot find invalid-tsconfig\.json file at the specified directory: /);
     });
 
     it('An empty file name is specified in options', () => {
@@ -335,7 +470,7 @@ describe('loadSync', () => {
         loadSync(relativePath('fixtures/normal'), {
           fileName: '',
         }),
-      ).toThrow(/The specified file does not exist, but a directory exists: /);
+      ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
 
     it('An invalid way of specifying directory in options', () => {
@@ -344,7 +479,15 @@ describe('loadSync', () => {
         loadSync(relativePath('fixtures'), {
           fileName: 'normal',
         }),
-      ).toThrow(/The specified file does not exist, but a directory exists: /);
+      ).toThrow(/^The specified file does not exist, but a directory exists: /);
+    });
+
+    it('An invalid path in extends prop is specified', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/invalid-extends'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toThrow(/^ENOENT: no such file or directory, open /);
     });
   });
 });

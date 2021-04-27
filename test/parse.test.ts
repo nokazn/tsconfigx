@@ -186,7 +186,7 @@ describe('parse', () => {
         ],
       },
     `),
-    ).toThrow(/Unexpected token , in JSON at position/);
+    ).toThrow(/^Unexpected token , in JSON at position/);
   });
 
   it('tsconfig with missing commas', () => {
@@ -207,7 +207,7 @@ describe('parse', () => {
         ],
       },
     `),
-    ).toThrow(/Unexpected token , in JSON at position/);
+    ).toThrow(/^Unexpected token , in JSON at position/);
   });
 
   it('invalid tsconfig', () => {
@@ -228,6 +228,6 @@ describe('parse', () => {
         ],
       }
     `),
-    ).toThrow(/Unexpected string in JSON at position/);
+    ).toThrow(/^Unexpected string in JSON at position/);
   });
 });

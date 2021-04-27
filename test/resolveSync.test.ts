@@ -109,7 +109,7 @@ describe('resolveSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2', () => {
@@ -124,13 +124,13 @@ describe('resolveSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3', () => {
       expect(() =>
         resolveSync(relativePath('fixtures/nested/1/2/3'), { recursive: false }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('A different file name is specified in options in nested/1/2/3', () => {
@@ -139,13 +139,13 @@ describe('resolveSync', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3/4', () => {
       expect(() =>
         resolveSync(relativePath('fixtures/nested/1/2/3/4'), { recursive: false }),
-      ).toThrow(/The specified file does not exist: /);
+      ).toThrow(/^The specified file does not exist: /);
     });
 
     it('A different file name is specified in options in nested/1/2/3/4', () => {
@@ -170,7 +170,7 @@ describe('resolveSync', () => {
         resolveSync(relativePath('fixtures/normal'), {
           fileName: 'invalid-tsconfig.json',
         }),
-      ).toThrow(/Cannot find invalid-tsconfig\.json file at the specified directory: /);
+      ).toThrow(/^Cannot find invalid-tsconfig\.json file at the specified directory: /);
     });
 
     it('An empty file name is specified in options', () => {
@@ -178,7 +178,7 @@ describe('resolveSync', () => {
         resolveSync(relativePath('fixtures/normal'), {
           fileName: '',
         }),
-      ).toThrow(/The specified file does not exist, but a directory exists: /);
+      ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
 
     it('An invalid way of specifying directory in options', () => {
@@ -187,7 +187,7 @@ describe('resolveSync', () => {
         resolveSync(relativePath('fixtures'), {
           fileName: 'normal',
         }),
-      ).toThrow(/The specified file does not exist, but a directory exists: /);
+      ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
   });
 });
