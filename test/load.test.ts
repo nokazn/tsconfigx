@@ -198,13 +198,28 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/tsconfig.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: true,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2, and extends option is set to false', () => {
+      expect(load(relativePath('fixtures/nested/1/2/'), { extends: false })).resolves.toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
           },
         },
       });
@@ -255,13 +270,28 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/tsconfig.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: true,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2/3, and extends option is set to false', () => {
+      expect(load(relativePath('fixtures/nested/1/2/3'), { extends: false })).resolves.toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
           },
         },
       });
@@ -312,13 +342,28 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/tsconfig.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: true,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2/3/4, and extends option is set to false', () => {
+      expect(load(relativePath('fixtures/nested/1/2/3/4'), { extends: false })).resolves.toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
           },
         },
       });
@@ -333,13 +378,14 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: false,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
             declaration: true,
           },
         },
@@ -396,13 +442,33 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/tsconfig.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: true,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2, and extends option is set to false', () => {
+      expect(
+        load(relativePath('fixtures/nested/1/2/'), {
+          recursive: false,
+          extends: false,
+        }),
+      ).resolves.toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
           },
         },
       });
@@ -468,13 +534,14 @@ describe('load', () => {
         path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
         config: {
           compilerOptions: {
-            target: 'es5',
-            module: 'commonjs',
+            target: 'ES6',
+            module: 'ESNEXT',
             strict: true,
             noEmit: false,
             esModuleInterop: true,
             skipLibCheck: true,
             forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
             declaration: true,
           },
         },

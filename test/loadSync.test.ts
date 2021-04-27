@@ -4,116 +4,131 @@ import { relativePath } from './utils';
 describe('loadSync', () => {
   describe('normal', () => {
     it('cwd is specified as a file', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal/tsconfig.json'));
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/normal/tsconfig.json'))).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a file with a different name', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal/tsconfig.build.json'));
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(loadSync(relativePath('fixtures/normal/tsconfig.build.json'))).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a file with a different name, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal/tsconfig.build.json'), {
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: './tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/normal/tsconfig.build.json'), {
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.build.json'),
+        config: {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
 
     it('A file name is specified in options', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal'), {
-        fileName: 'tsconfig.json',
-      });
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(
+        loadSync(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal'), {
-        fileName: 'tsconfig.build.json',
-      });
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal'), {
-        fileName: 'tsconfig.build.json',
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: './tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.build.json',
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.build.json'),
+        config: {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a directory', () => {
-      const { path, config } = loadSync(relativePath('fixtures/normal'));
-      expect(path).toBe(relativePath('fixtures/normal/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/normal'))).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
         },
       });
     });
@@ -121,201 +136,275 @@ describe('loadSync', () => {
 
   describe('set recursive option to true in a nested directory', () => {
     it('cwd is specified as a directory in nested/1', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1'));
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/nested/1'))).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1'), {
-        fileName: 'tsconfig.build.json',
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1'), {
-        fileName: 'tsconfig.build.json',
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: './tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1'), {
+          fileName: 'tsconfig.build.json',
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a directory in nested/1/2', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'));
-      expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/nested/1/2/'))).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2, and extends option is set to false', () => {
+      expect(loadSync(relativePath('fixtures/nested/1/2/'), { extends: false })).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'), {
-        fileName: 'tsconfig.build.json',
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'), {
-        fileName: 'tsconfig.build.json',
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: './tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/'), {
+          fileName: 'tsconfig.build.json',
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a directory in nested/1/2/3', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3'));
-      expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/nested/1/2/3'))).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2/3, and extends option is set to false', () => {
+      expect(loadSync(relativePath('fixtures/nested/1/2/3'), { extends: false })).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2/3', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3'), {
-        fileName: 'tsconfig.build.json',
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2/3, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3'), {
-        fileName: 'tsconfig.build.json',
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: './tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3'), {
+          fileName: 'tsconfig.build.json',
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/tsconfig.build.json'),
+        config: {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
 
     it('cwd is specified as a directory in nested/1/2/3/4', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'));
-      expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/nested/1/2/3/4'))).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2/3/4, and extends option is set to false', () => {
+      expect(loadSync(relativePath('fixtures/nested/1/2/3/4'), { extends: false })).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2/3/4', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
-        fileName: 'tsconfig.build.json',
-      });
-      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2/3/4, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
-        fileName: 'tsconfig.build.json',
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: '../../tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
@@ -348,17 +437,38 @@ describe('loadSync', () => {
     });
 
     it('cwd is specified as a directory in nested/1/2', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'), { recursive: false });
-      expect(path).toBe(relativePath('fixtures/nested/1/2/tsconfig.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
+      expect(loadSync(relativePath('fixtures/nested/1/2/'), { recursive: false })).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+          },
+        },
+      });
+    });
+
+    it('cwd is specified as a directory in nested/1/2, and extends option is set to false', () => {
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/'), {
+          recursive: false,
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/1/2/tsconfig.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            moduleResolution: 'node',
+          },
         },
       });
     });
@@ -414,37 +524,44 @@ describe('loadSync', () => {
     });
 
     it('A different file name is specified in options in nested/1/2/3/4', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
-        fileName: 'tsconfig.build.json',
-        recursive: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
-      expect(config).toEqual({
-        compilerOptions: {
-          target: 'es5',
-          module: 'commonjs',
-          strict: true,
-          noEmit: false,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
+        config: {
+          compilerOptions: {
+            target: 'ES6',
+            module: 'ESNEXT',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            moduleResolution: 'node',
+            declaration: true,
+          },
         },
       });
     });
 
     it('A different file name is specified in options in nested/1/2/3/4, and extends option is set to false', () => {
-      const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
-        fileName: 'tsconfig.build.json',
-        recursive: false,
-        extends: false,
-      });
-      expect(path).toBe(relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'));
-      expect(config).toEqual({
-        extends: '../../tsconfig.json',
-        compilerOptions: {
-          noEmit: false,
-          declaration: true,
+      expect(
+        loadSync(relativePath('fixtures/nested/1/2/3/4'), {
+          fileName: 'tsconfig.build.json',
+          recursive: false,
+          extends: false,
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/nested/1/2/3/4/tsconfig.build.json'),
+        config: {
+          extends: '../../tsconfig.json',
+          compilerOptions: {
+            noEmit: false,
+            declaration: true,
+          },
         },
       });
     });
