@@ -11,6 +11,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -18,7 +19,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('cwd is specified as a file with a different name', () => {
+    it('cwd is specified as a file with a different name', () => {
       const { path, config } = loadSync(relativePath('fixtures/normal/tsconfig.build.json'));
       expect(path).toBe(relativePath('fixtures/normal/tsconfig.build.json'));
       expect(config).toEqual({
@@ -26,6 +27,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -44,6 +46,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -51,7 +54,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('A different file name is specified in options', () => {
+    it('A different file name is specified in options', () => {
       const { path, config } = loadSync(relativePath('fixtures/normal'), {
         fileName: 'tsconfig.build.json',
       });
@@ -61,6 +64,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -77,6 +81,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -94,6 +99,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -101,7 +107,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('A different file name is specified in options in nested/1', () => {
+    it('A different file name is specified in options in nested/1', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1'), {
         fileName: 'tsconfig.build.json',
       });
@@ -111,6 +117,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -127,6 +134,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -134,7 +142,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('A different file name is specified in options in nested/1/2', () => {
+    it('A different file name is specified in options in nested/1/2', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/'), {
         fileName: 'tsconfig.build.json',
       });
@@ -144,6 +152,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -160,6 +169,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -167,7 +177,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('A different file name is specified in options in nested/1/2/3', () => {
+    it('A different file name is specified in options in nested/1/2/3', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3'), {
         fileName: 'tsconfig.build.json',
       });
@@ -177,6 +187,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -193,6 +204,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -200,7 +212,7 @@ describe('loadSync', () => {
       });
     });
 
-    it.skip('A different file name is specified in options in nested/1/2/3/4', () => {
+    it('A different file name is specified in options in nested/1/2/3/4', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
         fileName: 'tsconfig.build.json',
       });
@@ -210,6 +222,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -243,6 +256,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: true,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
@@ -280,7 +294,7 @@ describe('loadSync', () => {
       );
     });
 
-    it.skip('A different file name is specified in options in nested/1/2/3/4', () => {
+    it('A different file name is specified in options in nested/1/2/3/4', () => {
       const { path, config } = loadSync(relativePath('fixtures/nested/1/2/3/4'), {
         fileName: 'tsconfig.build.json',
         recursive: false,
@@ -291,6 +305,7 @@ describe('loadSync', () => {
           target: 'es5',
           module: 'commonjs',
           strict: true,
+          noEmit: false,
           esModuleInterop: true,
           skipLibCheck: true,
           forceConsistentCasingInFileNames: true,
