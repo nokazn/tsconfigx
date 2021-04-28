@@ -1,9 +1,8 @@
-import * as path from 'path';
 import merge from 'just-extend';
 
 import { parse } from '~/parse';
 import { readFile, readFileSync } from '~/readFile';
-import { hasExtendsProp } from '~/utils';
+import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName } from '~/utils';
 import type { ReadFileOptions, LoadOptions, ConfigOptions } from '~/types';
 
 interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {
@@ -11,10 +10,6 @@ interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {
    * child tsconfig.json file
    */
   child?: string;
-}
-
-function extendedTsconfigPath(basePath: string, relativePath: string | undefined) {
-  return relativePath != null ? path.join(path.dirname(basePath), relativePath) : basePath;
 }
 
 function noEntryErrorMessage(err: Error, child?: string): string {
@@ -30,7 +25,7 @@ export async function extendedLoad(
   options?: ExtendedLoadOptions,
 ): Promise<ConfigOptions> {
   const trackExtendsProp = options?.extends ?? true;
-  const tsconfigPath = extendedTsconfigPath(basePath, relativePath);
+  const tsconfigPath = normalizeJsonFileName(extendedTsconfigPath(basePath, relativePath));
   const raw = await readFile(tsconfigPath, options).catch((err: Error) => {
     throw new TypeError(noEntryErrorMessage(err, options?.child));
   });
@@ -53,7 +48,7 @@ export function extendedLoadSync(
   options?: ExtendedLoadOptions,
 ): ConfigOptions {
   const trackExtendsProp = options?.extends ?? true;
-  const tsconfigPath = extendedTsconfigPath(basePath, relativePath);
+  const tsconfigPath = normalizeJsonFileName(extendedTsconfigPath(basePath, relativePath));
   let raw: string;
   try {
     raw = readFileSync(tsconfigPath, options);

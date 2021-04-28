@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { stat, statSync, isFile, isDir, isJson } from './utils';
+import { stat, statSync, isFile, isDir, existPathAsDir, existPathAsDirSync } from './utils';
 import { Options } from '~/types';
 
 const TS_CONFIG = 'tsconfig.json';
@@ -15,7 +15,7 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
   // fileName is specified
   if (specifiedFileName != null) {
     const specifiedPath = path.resolve(cwd, specifiedFileName);
-    return stat(specifiedPath).then((stats) => {
+    const ensuredSpecifiedPath = await stat(specifiedPath).then((stats) => {
       if (stats != null) {
         // cwd includes a file or options.fileName is specified, and stats is file
         if (isFile(stats)) {
@@ -28,18 +28,23 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
           );
         }
       }
-      if (recursive) {
-        const parentDir = path.dirname(cwd);
-        // cwd is not root directory
-        if (parentDir !== cwd) {
-          return resolve(parentDir, options);
-        }
-        throw new TypeError(
-          `Cannot find ${specifiedFileName} file at the specified directory: ${cwd}`,
-        );
-      }
-      throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
+      return undefined;
     });
+    if (ensuredSpecifiedPath != null) {
+      return ensuredSpecifiedPath;
+    }
+    if (recursive) {
+      const isCwdDir = await existPathAsDir(cwd);
+      const parentDir = path.dirname(cwd);
+      // cwd is a directory and not root
+      if (isCwdDir && parentDir !== cwd) {
+        return resolve(parentDir, options);
+      }
+      throw new TypeError(
+        `Cannot find ${specifiedFileName} file at the specified directory: ${cwd}`,
+      );
+    }
+    throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
   }
 
   return stat(cwd).then((stats) => {
@@ -53,10 +58,10 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
         return resolve(cwd, { ...options, fileName: TS_CONFIG });
       }
     }
-    // search recursively
+    // specify cwd as a file, and search recursively
     if (recursive) {
       const parentDir = path.dirname(cwd);
-      const fileName = isJson(cwd) ? path.basename(cwd) : TS_CONFIG;
+      const fileName = path.basename(cwd);
       // cwd is not root directory
       if (parentDir !== cwd) {
         return resolve(parentDir, { ...options, fileName });
@@ -92,9 +97,10 @@ export function resolveSync(cwd: string, options?: Options): string {
       }
     }
     if (recursive) {
+      const isCwdDir = existPathAsDirSync(cwd);
       const parentDir = path.dirname(cwd);
-      // cwd is not root directory
-      if (parentDir !== cwd) {
+      // cwd is a directory and not root
+      if (isCwdDir && parentDir !== cwd) {
         return resolveSync(parentDir, options);
       }
       throw new TypeError(
@@ -118,10 +124,10 @@ export function resolveSync(cwd: string, options?: Options): string {
       });
     }
   }
-  // search recursively
+  // specify cwd as a file, and search recursively
   if (recursive) {
     const parentDir = path.dirname(cwd);
-    const fileName = isJson(cwd) ? path.basename(cwd) : TS_CONFIG;
+    const fileName = path.basename(cwd);
     // cwd is not root directory
     if (parentDir !== cwd) {
       return resolveSync(parentDir, { ...options, fileName });

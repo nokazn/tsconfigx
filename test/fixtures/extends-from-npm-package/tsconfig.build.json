@@ -1,0 +1,9 @@
+{
+  "extends": "///@tsconfig/recommended/tsconfig",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "noEmit": false,
+    "declaration": true,
+  }
+}

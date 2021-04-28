@@ -55,6 +55,24 @@ describe('loadSync', () => {
       });
     });
 
+    it('cwd is specified as a file with a different name, and extends is specified without extension name', () => {
+      expect(loadSync(relativePath('fixtures/normal/tsconfig.no-extension.json'))).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.no-extension.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
+        },
+      });
+    });
+
     it('A file name is specified in options', () => {
       expect(
         loadSync(relativePath('fixtures/normal'), {
@@ -110,6 +128,28 @@ describe('loadSync', () => {
           extends: './tsconfig.json',
           compilerOptions: {
             noEmit: false,
+            declaration: true,
+          },
+        },
+      });
+    });
+
+    it('A different file name is specified in options, and extends is specified without extension name', () => {
+      expect(
+        loadSync(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.no-extension.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/normal/tsconfig.no-extension.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
             declaration: true,
           },
         },
@@ -567,10 +607,80 @@ describe('loadSync', () => {
     });
   });
 
+  describe('extends from a npm packages', () => {
+    it('specify normally', () => {
+      expect(loadSync(relativePath('fixtures/extends-from-npm-package'))).toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'ESNEXT',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+
+    it('specify without extension name', () => {
+      expect(
+        loadSync(relativePath('fixtures/extends-from-npm-package'), {
+          fileName: 'tsconfig.no-extension.json',
+        }),
+      ).toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.no-extension.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'ESNEXT',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+
+    it('specify an absolute path as a path to npm package', () => {
+      expect(
+        loadSync(relativePath('fixtures/extends-from-npm-package/tsconfig.build.json')),
+      ).toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.build.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+  });
+
   describe('invalid', () => {
     it('An invalid file name is specified in cwd', () => {
       expect(() => loadSync(relativePath('fixtures/normal/invalid-tsconfig.json'))).toThrow(
         /Cannot find invalid-tsconfig\.json file at the specified directory: /,
+      );
+    });
+
+    it('An file name without extension name is specified in cwd', () => {
+      expect(() => loadSync(relativePath('fixtures/normal/tsconfig.build'))).toThrow(
+        /Cannot find tsconfig\.build file at the specified directory: /,
       );
     });
 
@@ -590,6 +700,14 @@ describe('loadSync', () => {
       ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
 
+    it('An file name without extension name is specified in options', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.build',
+        }),
+      ).toThrow(/^Cannot find tsconfig\.build file at the specified directory: /);
+    });
+
     it('An invalid way of specifying directory in options', () => {
       expect(() =>
         // @ts-expect-error
@@ -599,12 +717,26 @@ describe('loadSync', () => {
       ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
 
-    it('An invalid path in extends prop is specified', () => {
+    it('Duplicated specifying a file in options', () => {
+      expect(() =>
+        loadSync(relativePath('fixtures/normal/tsconfig.json'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toThrow(/^Cannot find tsconfig\.build\.json file at the specified directory: /);
+    });
+
+    it('An invalid relative path in extends prop is specified', () => {
       expect(() =>
         loadSync(relativePath('fixtures/invalid-extends'), {
           fileName: 'tsconfig.build.json',
         }),
       ).toThrow(/^ENOENT: no such file or directory, open /);
+    });
+
+    it('An invalid path to a npm package in extends prop is specified', () => {
+      expect(() => loadSync(relativePath('fixtures/invalid-extends'))).toThrow(
+        /Cannot find module /,
+      );
     });
   });
 });

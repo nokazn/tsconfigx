@@ -30,8 +30,37 @@ export function isDir(stats: Stats): boolean {
   return stats.isDirectory();
 }
 
-export function isJson(filePath: string): boolean {
-  return /\.json$/.test(path.basename(filePath));
+export function existPathAsDir(dirPath: string): Promise<boolean> {
+  return stat(dirPath)
+    .then((stats) => stats != null && isDir(stats))
+    .catch(() => false);
+}
+
+export function existPathAsDirSync(dirPath: string): boolean {
+  let stats: Stats | undefined;
+  try {
+    stats = statSync(dirPath);
+  } catch (err) {
+    stats = undefined;
+  }
+  return stats != null && isDir(stats);
+}
+
+export function normalizeJsonFileName(filePath: string): string {
+  return path.extname(filePath) === '.json' ? filePath : `${filePath}.json`;
+}
+
+export function extendedTsconfigPath(basePath: string, to: string | undefined): string {
+  if (to == null) {
+    return basePath;
+  }
+  // start with './' or '../'
+  if (/^\.{1,2}\//.test(to)) {
+    return path.resolve(path.dirname(basePath), to);
+  }
+  // resolve as a path to NPM package
+  const npmPackagePath = path.isAbsolute(to) ? to.replace(/^\/+/, '') : to;
+  return require.resolve(npmPackagePath);
 }
 
 export function hasProp<T extends string>(
