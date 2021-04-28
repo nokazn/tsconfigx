@@ -1,6 +1,8 @@
 import * as path from 'path';
 import { stat, statSync, isFile, isDir, isJson } from './utils';
-import { TS_CONFIG, Options } from '~/constants';
+import { Options } from '~/types';
+
+const TS_CONFIG = 'tsconfig.json';
 
 /**
  * Resolve a configuration file, like `tsc`.

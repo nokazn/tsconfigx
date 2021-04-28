@@ -31,6 +31,7 @@ module.exports = {
     'lines-between-class-members': ALLOW,
     'no-console': [WARN, { allow: ['info', 'warn', 'error'] }],
     'no-undef': ALLOW,
+    'arrow-body-style': ALLOW,
 
     /**
      * eslint-plugin-import

@@ -1,15 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import type { Stats } from 'fs';
 import { promisify } from 'util';
+import type { Stats } from 'fs';
+import type { ConfigOptions } from '~/types';
 
-interface ReadFileOptions {
-  encoding?: BufferEncoding;
+interface ConfigOptionsWithExtends extends ConfigOptions {
+  extends: string;
 }
-
-const defaultReadFileOptions: ReadFileOptions = {
-  encoding: 'utf-8',
-};
 
 export function stat(filePath: string): Promise<Stats | undefined> {
   return promisify(fs.stat)(filePath).catch(() => undefined);
@@ -37,19 +34,13 @@ export function isJson(filePath: string): boolean {
   return /\.json$/.test(path.basename(filePath));
 }
 
-export function readFile(
-  filePath: string,
-  options: ReadFileOptions = defaultReadFileOptions,
-): Promise<string> {
-  return promisify(fs.readFile)(filePath, options).then((content) =>
-    typeof content === 'string' ? content : content.toString('utf-8'),
-  );
+export function hasProp<T extends string>(
+  obj: unknown,
+  type: T,
+): obj is typeof obj & Record<T, unknown> {
+  return type != null && Object.prototype.hasOwnProperty.call(obj, type);
 }
 
-export function readFileSync(
-  filePath: string,
-  options: ReadFileOptions = defaultReadFileOptions,
-): string {
-  const content = fs.readFileSync(filePath, options);
-  return typeof content !== 'string' ? content.toString('utf-8') : content;
+export function hasExtendsProp(config: ConfigOptions): config is ConfigOptionsWithExtends {
+  return hasProp(config, 'extends') && typeof config.extends === 'string';
 }

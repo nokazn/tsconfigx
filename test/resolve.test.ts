@@ -110,7 +110,7 @@ describe('resolve', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).rejects.toThrow(/The specified file does not exist: /);
+      ).rejects.toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2', () => {
@@ -125,7 +125,7 @@ describe('resolve', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).rejects.toThrow(/The specified file does not exist: /);
+      ).rejects.toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3', () => {
@@ -140,13 +140,13 @@ describe('resolve', () => {
           fileName: 'tsconfig.build.json',
           recursive: false,
         }),
-      ).rejects.toThrow(/The specified file does not exist: /);
+      ).rejects.toThrow(/^The specified file does not exist: /);
     });
 
     it('cwd is specified as a directory in nested/1/2/3/4', () => {
       expect(
         resolve(relativePath('fixtures/nested/1/2/3/4'), { recursive: false }),
-      ).rejects.toThrow(/The specified file does not exist: /);
+      ).rejects.toThrow(/^The specified file does not exist: /);
     });
 
     it('A different file name is specified in options in nested/1/2/3/4', () => {
@@ -170,14 +170,14 @@ describe('resolve', () => {
         resolve(relativePath('fixtures/normal'), {
           fileName: 'invalid-tsconfig.json',
         }),
-      ).rejects.toThrow(/Cannot find invalid-tsconfig\.json file at the specified directory: /);
+      ).rejects.toThrow(/^Cannot find invalid-tsconfig\.json file at the specified directory: /);
     });
     it('An empty file name is specified in options', () => {
       expect(
         resolve(relativePath('fixtures/normal'), {
           fileName: '',
         }),
-      ).rejects.toThrow(/The specified file does not exist, but a directory exists: /);
+      ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
     it('An invalid way of specifying directory in options', () => {
       expect(
@@ -185,7 +185,7 @@ describe('resolve', () => {
         resolve(relativePath('fixtures'), {
           fileName: 'normal',
         }),
-      ).rejects.toThrow(/The specified file does not exist, but a directory exists: /);
+      ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
   });
 });
