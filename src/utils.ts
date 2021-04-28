@@ -30,8 +30,24 @@ export function isDir(stats: Stats): boolean {
   return stats.isDirectory();
 }
 
-export function isJson(filePath: string): boolean {
-  return path.extname(filePath) === '.json';
+export function existPathAsDir(dirPath: string): Promise<boolean> {
+  return stat(dirPath)
+    .then((stats) => stats != null && isDir(stats))
+    .catch(() => false);
+}
+
+export function existPathAsDirSync(dirPath: string): boolean {
+  let stats: Stats | undefined;
+  try {
+    stats = statSync(dirPath);
+  } catch (err) {
+    stats = undefined;
+  }
+  return stats != null && isDir(stats);
+}
+
+export function normalizeJsonFileName(filePath: string): string {
+  return path.extname(filePath) === '.json' ? filePath : `${filePath}.json`;
 }
 
 export function extendedTsconfigPath(basePath: string, to: string | undefined): string {

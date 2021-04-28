@@ -56,6 +56,24 @@ describe('load', () => {
       });
     });
 
+    it('cwd is specified as a file with a different name, and extends is specified without extension name', () => {
+      expect(load(relativePath('fixtures/normal/tsconfig.no-extension.json'))).resolves.toEqual({
+        path: relativePath('fixtures/normal/tsconfig.no-extension.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
+        },
+      });
+    });
+
     it('A file name is specified in options', () => {
       expect(
         load(relativePath('fixtures/normal'), {
@@ -111,6 +129,28 @@ describe('load', () => {
           extends: './tsconfig.json',
           compilerOptions: {
             noEmit: false,
+            declaration: true,
+          },
+        },
+      });
+    });
+
+    it('A different file name is specified in options, and extends is specified without extension name', () => {
+      expect(
+        load(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.no-extension.json',
+        }),
+      ).resolves.toEqual({
+        path: relativePath('fixtures/normal/tsconfig.no-extension.json'),
+        config: {
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
             declaration: true,
           },
         },
@@ -638,6 +678,13 @@ describe('load', () => {
         /Cannot find invalid-tsconfig\.json file at the specified directory: /,
       );
     });
+
+    it('An file name without extension name is specified in cwd', () => {
+      expect(() => load(relativePath('fixtures/normal/tsconfig.build'))).rejects.toThrow(
+        /Cannot find tsconfig\.build file at the specified directory: /,
+      );
+    });
+
     it('An invalid file name is specified in options', () => {
       expect(
         load(relativePath('fixtures/normal'), {
@@ -645,6 +692,7 @@ describe('load', () => {
         }),
       ).rejects.toThrow(/^Cannot find invalid-tsconfig\.json file at the specified directory: /);
     });
+
     it('An empty file name is specified in options', () => {
       expect(
         load(relativePath('fixtures/normal'), {
@@ -652,6 +700,15 @@ describe('load', () => {
         }),
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
+
+    it('An file name without extension name is specified in options', () => {
+      expect(() =>
+        load(relativePath('fixtures/normal'), {
+          fileName: 'tsconfig.build',
+        }),
+      ).rejects.toThrow(/^Cannot find tsconfig\.build file at the specified directory: /);
+    });
+
     it('An invalid way of specifying a directory in options', () => {
       expect(
         // @ts-expect-error
@@ -659,6 +716,14 @@ describe('load', () => {
           fileName: 'normal',
         }),
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
+    });
+
+    it('Duplicated specifying a file in options', () => {
+      expect(() =>
+        load(relativePath('fixtures/normal/tsconfig.json'), {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).rejects.toThrow(/^Cannot find tsconfig\.build\.json file at the specified directory: /);
     });
 
     it('An invalid relative path in extends prop is specified', () => {
