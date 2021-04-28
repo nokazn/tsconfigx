@@ -36,7 +36,8 @@ export async function extendedLoad(
   });
   const config = parse(raw);
   if (trackExtendsProp && hasExtendsProp(config)) {
-    const { extends: extendsProp, ...restConfig } = config;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { extends: extendsProp, references: _references, ...restConfig } = config;
     const baseConfig = await extendedLoad(tsconfigPath, extendsProp, {
       ...options,
       child: basePath,
@@ -61,7 +62,8 @@ export function extendedLoadSync(
   }
   const config = parse(raw);
   if (trackExtendsProp && hasExtendsProp(config)) {
-    const { extends: extendsProp, ...restConfig } = config;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { extends: extendsProp, references: _references, ...restConfig } = config;
     const baseConfig = extendedLoadSync(tsconfigPath, extendsProp, {
       ...options,
       child: basePath,
