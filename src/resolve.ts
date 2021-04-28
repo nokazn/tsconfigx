@@ -4,12 +4,11 @@ import { Options } from '~/types';
 
 const TS_CONFIG = 'tsconfig.json';
 
-/**
- * Resolve a configuration file, like `tsc`.
- * @param {string} - path to tsconfig.json or context
- * @return {string} - path to tsconfig.json
- */
-export async function resolve(cwd: string, options?: Options): Promise<string> {
+interface ResolverOptions extends Options {
+  extendsFrom?: string;
+}
+
+async function resolver(cwd: string, options?: ResolverOptions): Promise<string> {
   const recursive = options?.recursive ?? true;
   const specifiedFileName = options?.fileName;
 
@@ -39,10 +38,15 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
       const parentDir = path.dirname(cwd);
       // cwd is a directory and not root
       if (isCwdDir && parentDir !== cwd) {
-        return resolve(parentDir, options);
+        return resolver(parentDir, {
+          extendsFrom: cwd,
+          ...options,
+        });
       }
       throw new TypeError(
-        `Cannot find ${specifiedFileName} file at the specified directory: ${cwd}`,
+        `Cannot find ${specifiedFileName} file at the specified directory: ${
+          options?.extendsFrom ?? cwd
+        }`,
       );
     }
     throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
@@ -56,7 +60,10 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
       }
       // cwd indicates a directory or options.fileName is specified, and stats is directory
       if (isDir(stats)) {
-        return resolve(cwd, { ...options, fileName: TS_CONFIG });
+        return resolver(cwd, {
+          ...options,
+          fileName: TS_CONFIG,
+        });
       }
     }
     // specify cwd as a file, and search recursively
@@ -65,20 +72,31 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
       const fileName = path.basename(cwd);
       // cwd is not root directory
       if (parentDir !== cwd) {
-        return resolve(parentDir, { ...options, fileName });
+        return resolver(parentDir, {
+          extendsFrom: parentDir,
+          ...options,
+          fileName,
+        });
       }
-      throw new TypeError(`Cannot find ${fileName} file at the specified directory: ${cwd}`);
+      throw new TypeError(
+        `Cannot find ${fileName} file at the specified directory: ${options?.extendsFrom ?? cwd}`,
+      );
     }
     throw new TypeError(`The specified file does not exist: ${cwd}`);
   });
 }
 
 /**
- * Synchronously resolve a configuration file, like `tsc`.
- * @param {string} - path to tsconfig.json or context
- * @return {string} - path to tsconfig.json
+ * Resolve a config file, like `tsc`.
+ * @param {string} cwd - path to a config file or directory
+ * @param {object} options
+ * @return {string} path to a config
  */
-export function resolveSync(cwd: string, options?: Options): string {
+export async function resolve(cwd: string, options?: Options): Promise<string> {
+  return resolver(cwd, options);
+}
+
+function resolverSync(cwd: string, options?: ResolverOptions): string {
   const recursive = options?.recursive ?? true;
   const specifiedFileName = options?.fileName;
 
@@ -103,10 +121,15 @@ export function resolveSync(cwd: string, options?: Options): string {
       const parentDir = path.dirname(cwd);
       // cwd is a directory and not root
       if (isCwdDir && parentDir !== cwd) {
-        return resolveSync(parentDir, options);
+        return resolverSync(parentDir, {
+          extendsFrom: cwd,
+          ...options,
+        });
       }
       throw new TypeError(
-        `Cannot find ${specifiedFileName} file at the specified directory: ${cwd}`,
+        `Cannot find ${specifiedFileName} file at the specified directory: ${
+          options?.extendsFrom ?? cwd
+        }`,
       );
     }
     throw new TypeError(`The specified file does not exist: ${specifiedPath}`);
@@ -120,7 +143,7 @@ export function resolveSync(cwd: string, options?: Options): string {
     }
     // cwd indicates a directory or options.fileName is specified, and stats is directory
     if (isDir(stats)) {
-      return resolveSync(cwd, {
+      return resolverSync(cwd, {
         ...options,
         fileName: TS_CONFIG,
       });
@@ -132,9 +155,25 @@ export function resolveSync(cwd: string, options?: Options): string {
     const fileName = path.basename(cwd);
     // cwd is not root directory
     if (parentDir !== cwd) {
-      return resolveSync(parentDir, { ...options, fileName });
+      return resolverSync(parentDir, {
+        extendsFrom: parentDir,
+        ...options,
+        fileName,
+      });
     }
-    throw new TypeError(`Cannot find ${fileName} file at the specified directory: ${cwd}`);
+    throw new TypeError(
+      `Cannot find ${fileName} file at the specified directory: ${options?.extendsFrom ?? cwd}`,
+    );
   }
   throw new TypeError(`The specified file does not exist: ${cwd}`);
+}
+
+/**
+ * Synchronously resolve a config file, like `tsc`.
+ * @param {string} cwd - path to a config file or directory
+ * @param {object} options
+ * @return {string} path to a config
+ */
+export function resolveSync(cwd: string, options?: Options): string {
+  return resolverSync(cwd, options);
 }
