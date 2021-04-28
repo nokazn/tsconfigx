@@ -568,6 +568,70 @@ describe('load', () => {
     });
   });
 
+  describe('extends from a npm packages', () => {
+    it('specify normally', () => {
+      expect(load(relativePath('fixtures/extends-from-npm-package'))).resolves.toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'ESNEXT',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+
+    it('specify without extension name', () => {
+      expect(
+        load(relativePath('fixtures/extends-from-npm-package'), {
+          fileName: 'tsconfig.no-extension.json',
+        }),
+      ).resolves.toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.no-extension.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'ESNEXT',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+
+    it('specify an absolute path as a path to npm package', () => {
+      expect(
+        load(relativePath('fixtures/extends-from-npm-package/tsconfig.build.json')),
+      ).resolves.toEqual({
+        path: relativePath('fixtures/extends-from-npm-package/tsconfig.build.json'),
+        config: {
+          $schema: 'https://json.schemastore.org/tsconfig',
+          compilerOptions: {
+            target: 'es5',
+            module: 'commonjs',
+            strict: true,
+            noEmit: false,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+            declaration: true,
+          },
+          display: 'Recommended',
+        },
+      });
+    });
+  });
+
   describe('invalid', () => {
     it('An invalid file name is specified in cwd', () => {
       expect(load(relativePath('fixtures/normal/invalid-tsconfig.json'))).rejects.toThrow(
@@ -588,7 +652,7 @@ describe('load', () => {
         }),
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
-    it('An invalid way of specifying directory in options', () => {
+    it('An invalid way of specifying a directory in options', () => {
       expect(
         // @ts-expect-error
         load(relativePath('fixtures'), {
@@ -597,12 +661,18 @@ describe('load', () => {
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
 
-    it('An invalid path in extends prop is specified', () => {
+    it('An invalid relative path in extends prop is specified', () => {
       expect(() =>
         load(relativePath('fixtures/invalid-extends'), {
           fileName: 'tsconfig.build.json',
         }),
       ).rejects.toThrow(/^ENOENT: no such file or directory, open /);
+    });
+
+    it('An invalid path to a npm package in extends prop is specified', () => {
+      expect(() => load(relativePath('fixtures/invalid-extends'))).rejects.toThrow(
+        /Cannot find module /,
+      );
     });
   });
 });

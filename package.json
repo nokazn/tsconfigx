@@ -2,6 +2,7 @@
   "name": "typescript-starter",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/nokazn/strip-json-trailing-commas"
@@ -48,6 +49,7 @@
     "strip-json-trailing-commas": "^1.0.1"
   },
   "devDependencies": {
+    "@tsconfig/recommended": "1.0.1",
     "@types/jest": "^26.0.22",
     "@types/just-extend": "^1.1.0",
     "@types/node": "^14.14.37",

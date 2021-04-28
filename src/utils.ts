@@ -31,7 +31,20 @@ export function isDir(stats: Stats): boolean {
 }
 
 export function isJson(filePath: string): boolean {
-  return /\.json$/.test(path.basename(filePath));
+  return path.extname(filePath) === '.json';
+}
+
+export function extendedTsconfigPath(basePath: string, to: string | undefined): string {
+  if (to == null) {
+    return basePath;
+  }
+  // start with './' or '../'
+  if (/^\.{1,2}\//.test(to)) {
+    return path.resolve(path.dirname(basePath), to);
+  }
+  // resolve as a path to NPM package
+  const npmPackagePath = path.isAbsolute(to) ? to.replace(/^\/+/, '') : to;
+  return require.resolve(npmPackagePath);
 }
 
 export function hasProp<T extends string>(
