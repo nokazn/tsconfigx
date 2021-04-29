@@ -69,7 +69,8 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
     // specify cwd as a file, and search recursively
     if (recursive) {
       const parentDir = path.dirname(cwd);
-      const fileName = path.basename(cwd);
+      // avoid to specify `fileName` as an empty string
+      const fileName = path.basename(cwd) || undefined;
       // cwd is not root directory
       if (parentDir !== cwd) {
         return resolver(parentDir, {
@@ -79,7 +80,9 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
         });
       }
       throw new TypeError(
-        `Cannot find ${fileName} file at the specified directory: ${options?.extendsFrom ?? cwd}`,
+        `Cannot find ${fileName ?? 'config'} file at the specified directory: ${
+          options?.extendsFrom ?? cwd
+        }`,
       );
     }
     throw new TypeError(`The specified file does not exist: ${cwd}`);
@@ -92,8 +95,8 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
  * @param {object} options
  * @return {string} path to a config
  */
-export async function resolve(cwd: string, options?: Options): Promise<string> {
-  return resolver(cwd, options);
+export async function resolve(cwd?: string, options?: Options): Promise<string> {
+  return resolver(cwd || './', options);
 }
 
 function resolverSync(cwd: string, options?: ResolverOptions): string {
@@ -152,6 +155,8 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
   // specify `cwd` as a file, and search recursively
   if (recursive) {
     const parentDir = path.dirname(cwd);
+    // avoid to specify `fileName` as an empty string
+    const fileName = path.basename(cwd) || undefined;
     // `cwd` is not root directory
     if (parentDir !== cwd) {
       return resolverSync(parentDir, {
@@ -175,6 +180,6 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
  * @param {object} options
  * @return {string} path to a config
  */
-export function resolveSync(cwd: string, options?: Options): string {
-  return resolverSync(cwd, options);
+export function resolveSync(cwd?: string, options?: Options): string {
+  return resolverSync(cwd || './', options);
 }

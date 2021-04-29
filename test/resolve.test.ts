@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { resolve } from '~/resolve';
-import { relativePath } from './utils';
+import { projectRootPath, relativePath } from './utils';
 
 describe('resolve', () => {
   describe('normal', () => {
@@ -36,6 +36,30 @@ describe('resolve', () => {
       expect(resolve(relativePath('fixtures/normal'))).resolves.toBe(
         relativePath('fixtures/normal/tsconfig.json'),
       );
+    });
+
+    it('Resolve current directory when cwd is empty string', () => {
+      expect(resolve('')).resolves.toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('when cwd is undefined', () => {
+      expect(resolve()).resolves.toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('Resolve current directory when cwd is empty string with fileName', () => {
+      expect(
+        resolve('', {
+          fileName: 'tsconfig.json',
+        }),
+      ).resolves.toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('when cwd is undefined with fileName', () => {
+      expect(
+        resolve(undefined, {
+          fileName: 'tsconfig.json',
+        }),
+      ).resolves.toBe(projectRootPath('tsconfig.json'));
     });
   });
 

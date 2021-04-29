@@ -1,5 +1,5 @@
 import { resolveSync } from '~/resolve';
-import { relativePath } from './utils';
+import { projectRootPath, relativePath } from './utils';
 
 describe('resolveSync', () => {
   describe('normal', () => {
@@ -35,6 +35,30 @@ describe('resolveSync', () => {
       expect(resolveSync(relativePath('fixtures/normal'))).toBe(
         relativePath('fixtures/normal/tsconfig.json'),
       );
+    });
+
+    it('Resolve current directory when cwd is empty string', () => {
+      expect(resolveSync('')).toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('when cwd is undefined', () => {
+      expect(resolveSync('')).toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('Resolve current directory when cwd is empty string with fileName', () => {
+      expect(
+        resolveSync('', {
+          fileName: 'tsconfig.json',
+        }),
+      ).toBe(projectRootPath('tsconfig.json'));
+    });
+
+    it('when cwd is undefined with fileName', () => {
+      expect(
+        resolveSync('', {
+          fileName: 'tsconfig.json',
+        }),
+      ).toBe(projectRootPath('tsconfig.json'));
     });
   });
 

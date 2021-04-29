@@ -10,3 +10,4 @@ type FixtureType =
 export type FixturesPath = `fixtures/${FixtureType}` | `fixtures/${FixtureType}/${string}`;
 
 export const relativePath = (p: FixturesPath) => path.join(__dirname, p);
+export const projectRootPath = (p?: string) => path.join(__dirname, '../', p ?? '');
