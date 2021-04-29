@@ -5,11 +5,24 @@ import { readFile, readFileSync } from '~/readFile';
 import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName } from '~/utils';
 import type { ReadFileOptions, LoadOptions, ConfigOptions } from '~/types';
 
+type History = Record<string, number>;
 interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {
-  /**
-   * child tsconfig.json file
-   */
+  // child tsconfig.json file
   child?: string;
+  // for detecting circular dependency in extends
+  history?: History;
+}
+
+function appendHistory(history: History | undefined, filePath: string): History {
+  const MAX_EXTENDED_PATH_COUNT = 3;
+  const extendedPathCount = history?.[filePath] ?? 0;
+  if (extendedPathCount > MAX_EXTENDED_PATH_COUNT) {
+    throw new Error('Circular dependency in extends property is detected.');
+  }
+  return {
+    ...history,
+    [filePath]: extendedPathCount + 1,
+  };
 }
 
 function noEntryErrorMessage(err: Error, child?: string): string {
@@ -33,9 +46,11 @@ export async function extendedLoad(
   if (trackExtendsProp && hasExtendsProp(config)) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { extends: extendsProp, references: _references, ...restConfig } = config;
+    const history = appendHistory(options?.history, tsconfigPath);
     const baseConfig = await extendedLoad(tsconfigPath, extendsProp, {
       ...options,
       child: basePath,
+      history,
     });
     return merge(true, baseConfig, restConfig);
   }
@@ -59,9 +74,11 @@ export function extendedLoadSync(
   if (trackExtendsProp && hasExtendsProp(config)) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { extends: extendsProp, references: _references, ...restConfig } = config;
+    const history = appendHistory(options?.history, tsconfigPath);
     const baseConfig = extendedLoadSync(tsconfigPath, extendsProp, {
       ...options,
       child: basePath,
+      history,
     });
     return merge(true, baseConfig, restConfig);
   }
