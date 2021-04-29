@@ -24,7 +24,7 @@ $ npm i tsconfigx
 resolve a config file, read and parse the content asynchronously or synchronously.
 
 `load(cwd: string, options?: LoadOptions): Promise<LoadResult>`  
-`loadSync(cwd: string, options?: LoadOptions): LoadResult`;
+`loadSync(cwd: string, options?: LoadOptions): LoadResult`
 
 - `cwd` - path to a config file or a directory
 - `options`
