@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { resolve } from '~/resolve';
-import { projectRootPath, relativePath } from './utils';
+import { projectRootPath, relativePath } from './test-utils';
 
 describe('resolve', () => {
   describe('normal', () => {

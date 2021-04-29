@@ -1,5 +1,5 @@
 import { resolveSync } from '~/resolve';
-import { projectRootPath, relativePath } from './utils';
+import { projectRootPath, relativePath } from './test-utils';
 
 describe('resolveSync', () => {
   describe('normal', () => {

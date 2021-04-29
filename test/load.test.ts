@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { load } from '~/load';
-import { relativePath } from './utils';
+import { relativePath } from './test-utils';
 
 describe('load', () => {
   describe('normal', () => {

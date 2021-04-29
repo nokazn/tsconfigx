@@ -50,6 +50,11 @@ export function normalizeJsonFileName(filePath: string): string {
   return path.extname(filePath) === '.json' ? filePath : `${filePath}.json`;
 }
 
+/**
+ * @param {string} basePath - path to a config file
+ * @param {string} to - relative path or path to a npm package
+ * @returns {string}
+ */
 export function extendedTsconfigPath(basePath: string, to: string | undefined): string {
   if (to == null) {
     return basePath;
@@ -64,21 +69,24 @@ export function extendedTsconfigPath(basePath: string, to: string | undefined): 
 }
 
 export function mergeConfig(prev: ConfigOptions, curr: ConfigOptions): ConfigOptions {
-  return {
-    ...prev,
-    ...curr,
-    compilerOptions: {
-      ...prev.compilerOptions,
-      ...curr.compilerOptions,
-    },
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { references, ...base } = prev;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { extends: extendsProp, ...extended } = curr;
+  const compilerOptions =
+    base.compilerOptions != null || extended.compilerOptions != null
+      ? Object.assign(base.compilerOptions, extended.compilerOptions)
+      : undefined;
+  return compilerOptions != null
+    ? Object.assign(base, extended, { compilerOptions })
+    : Object.assign(base, extended);
 }
 
 export function hasProp<T extends string>(
   obj: unknown,
   type: T,
 ): obj is typeof obj & Record<T, unknown> {
-  return type != null && Object.prototype.hasOwnProperty.call(obj, type);
+  return obj != null && Object.prototype.hasOwnProperty.call(obj, type);
 }
 
 export function hasExtendsProp(config: ConfigOptions): config is ConfigOptionsWithExtends {

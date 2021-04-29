@@ -42,15 +42,13 @@ export async function extendedLoad(
   });
   const config = parse(raw);
   if (trackExtendsProp && hasExtendsProp(config)) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { extends: extendsProp, references: _references, ...restConfig } = config;
     const history = appendHistory(options?.history, tsconfigPath);
-    const baseConfig = await extendedLoad(tsconfigPath, extendsProp, {
+    const baseConfig = await extendedLoad(tsconfigPath, config.extends, {
       ...options,
       child: basePath,
       history,
     });
-    return mergeConfig(baseConfig, restConfig);
+    return mergeConfig(baseConfig, config);
   }
   return config;
 }
@@ -70,15 +68,13 @@ export function extendedLoadSync(
   }
   const config = parse(raw);
   if (trackExtendsProp && hasExtendsProp(config)) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { extends: extendsProp, references: _references, ...restConfig } = config;
     const history = appendHistory(options?.history, tsconfigPath);
-    const baseConfig = extendedLoadSync(tsconfigPath, extendsProp, {
+    const baseConfig = extendedLoadSync(tsconfigPath, config.extends, {
       ...options,
       child: basePath,
       history,
     });
-    return mergeConfig(baseConfig, restConfig);
+    return mergeConfig(baseConfig, config);
   }
   return config;
 }
