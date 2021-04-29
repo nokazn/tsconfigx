@@ -1,7 +1,7 @@
 import stripBom from 'strip-bom';
 import stripJsonComments from 'strip-json-comments';
 import stripJsonTrailingCommas from 'strip-json-trailing-commas';
-import type { ConfigOptions } from '~/types';
+import type { ConfigOptions } from './types';
 
 /**
  * Parse JSON with comments content as a JavaScript object.

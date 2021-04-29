@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { promisify } from 'util';
-import type { ReadFileOptions } from '~/types';
+import type { ReadFileOptions } from './types';
 
 const defaultReadFileOptions: ReadFileOptions = {
   encoding: 'utf-8',

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { stat, statSync, isFile, isDir, existPathAsDir, existPathAsDirSync } from './utils';
-import { Options } from '~/types';
+import { Options } from './types';
 
 const TS_CONFIG = 'tsconfig.json';
 

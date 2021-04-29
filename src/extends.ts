@@ -1,7 +1,7 @@
-import { parse } from '~/parse';
-import { readFile, readFileSync } from '~/readFile';
-import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName, mergeConfig } from '~/utils';
-import type { ReadFileOptions, LoadOptions, ConfigOptions } from '~/types';
+import { parse } from './parse';
+import { readFile, readFileSync } from './readFile';
+import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName, mergeConfig } from './utils';
+import type { ReadFileOptions, LoadOptions, ConfigOptions } from './types';
 
 type History = Record<string, number>;
 interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {

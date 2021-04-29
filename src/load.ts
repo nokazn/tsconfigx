@@ -1,6 +1,6 @@
-import { resolve, resolveSync } from '~/resolve';
-import { extendedLoad, extendedLoadSync } from '~/extends';
-import { LoadOptions, ConfigOptions } from '~/types';
+import { resolve, resolveSync } from './resolve';
+import { extendedLoad, extendedLoadSync } from './extends';
+import { LoadOptions, ConfigOptions } from './types';
 
 interface LoadResult {
   path: string;

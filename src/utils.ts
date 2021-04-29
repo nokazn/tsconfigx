@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 import type { Stats } from 'fs';
-import type { ConfigOptions } from '~/types';
+import type { ConfigOptions } from './types';
 
 interface ConfigOptionsWithExtends extends ConfigOptions {
   extends: string;
