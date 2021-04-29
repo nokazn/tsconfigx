@@ -90,7 +90,7 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
 }
 
 /**
- * Resolve a config file, like `tsc`.
+ * Resolve path to a config file.
  * @param {string} cwd - path to a config file or directory
  * @param {object} options
  * @return {string} path to a config
@@ -175,7 +175,7 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
 }
 
 /**
- * Synchronously resolve a config file, like `tsc`.
+ * Synchronously resolve path to a config file.
  * @param {string} cwd - path to a config file or directory
  * @param {object} options
  * @return {string} path to a config

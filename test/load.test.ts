@@ -649,7 +649,7 @@ describe('load', () => {
       });
     });
 
-    it('specify an absolute path as a path to npm package', () => {
+    it('specify an absolute path as path to npm package', () => {
       expect(
         load(relativePath('fixtures/extends-from-npm-package/tsconfig.build.json')),
       ).resolves.toEqual({

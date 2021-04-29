@@ -648,7 +648,7 @@ describe('loadSync', () => {
       });
     });
 
-    it('specify an absolute path as a path to npm package', () => {
+    it('specify an absolute path as path to npm package', () => {
       expect(
         loadSync(relativePath('fixtures/extends-from-npm-package/tsconfig.build.json')),
       ).toEqual({
