@@ -1,5 +1,5 @@
 import { loadSync } from '~/load';
-import { relativePath } from './utils';
+import { relativePath } from './test-utils';
 
 describe('loadSync', () => {
   describe('normal', () => {

@@ -194,11 +194,11 @@ interface CommandLineOptions {
   pretty?: boolean;
 }
 interface WatchOptions {
-  fallbackPolling: FallbackOptions;
+  fallbackPolling?: FallbackOptions;
   /** @default 'useFsEvents' */
-  watchDirectory: WatchDirectoryOptions;
+  watchDirectory?: WatchDirectoryOptions;
   /** @default 'useFsEvents' */
-  watchFile: WatchFileOptions;
+  watchFile?: WatchFileOptions;
 }
 interface AdvancedOptions {
   allowUnreachableCode?: boolean;
@@ -312,12 +312,12 @@ interface TypeAcquisition {
 export interface ConfigOptions {
   extends?: string;
   compileOnSave?: boolean;
-  compilerOptions?: CompilerOptions;
+  compilerOptions?: Partial<CompilerOptions>;
   exclude?: string[];
   include?: string[];
   files?: string[];
   references?: Reference[];
-  typeAcquisition?: TypeAcquisition;
+  typeAcquisition?: Partial<TypeAcquisition>;
   // TODO
   'ts-node'?: unknown;
 }
