@@ -671,6 +671,14 @@ describe('loadSync', () => {
     });
   });
 
+  describe('detect circular dependency', () => {
+    it('extends config cyclically', () => {
+      expect(() => loadSync(relativePath('fixtures/circular/tsconfig.build.json'), {})).toThrow(
+        'Circular dependency in extends property is detected.',
+      );
+    });
+  });
+
   describe('invalid', () => {
     it('An invalid file name is specified in cwd', () => {
       expect(() => loadSync(relativePath('fixtures/normal/invalid-tsconfig.json'))).toThrow(

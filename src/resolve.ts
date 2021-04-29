@@ -12,6 +12,7 @@ const TS_CONFIG = 'tsconfig.json';
 export async function resolve(cwd: string, options?: Options): Promise<string> {
   const recursive = options?.recursive ?? true;
   const specifiedFileName = options?.fileName;
+
   // fileName is specified
   if (specifiedFileName != null) {
     const specifiedPath = path.resolve(cwd, specifiedFileName);
@@ -80,6 +81,7 @@ export async function resolve(cwd: string, options?: Options): Promise<string> {
 export function resolveSync(cwd: string, options?: Options): string {
   const recursive = options?.recursive ?? true;
   const specifiedFileName = options?.fileName;
+
   // fileName is specified
   if (specifiedFileName != null) {
     const specifiedPath = path.resolve(cwd, specifiedFileName);
