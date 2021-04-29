@@ -1,5 +1,6 @@
 # tsconfigx
 
+[![npm version](https://badge.fury.io/js/tsconfigx.svg)](https://badge.fury.io/js/tsconfigx)
 [![CI](https://github.com/nokazn/tsconfigx/actions/workflows/static-check.yml/badge.svg)](https://github.com/nokazn/tsconfigx/actions/workflows/static-check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -35,7 +36,7 @@ resolve a config file, read and parse the content asynchronously or synchronousl
 
 ### `resolve` / `resolveSync`
 
-Resolve path to a config file.
+Resolve path to a config file asynchronously or synchronously.
 
 `resolve(cwd: string, options?: Options): Promise<string>`  
 `resolveSync(cwd: string, options?: Options): string`
