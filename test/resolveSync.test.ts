@@ -213,5 +213,33 @@ describe('resolveSync', () => {
         }),
       ).toThrow(/^The specified file does not exist, but a directory exists: /);
     });
+
+    it('cwd is specified as a parent file', () => {
+      expect(() =>
+        resolveSync('../../../../../../../../../../../../../../../../../../../../../tsconfig.json'),
+      ).toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('cwd is specified as a parent directory', () => {
+      expect(() =>
+        resolveSync('../../../../../../../../../../../../../../../../../../../../../'),
+      ).toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('A parent file name is specified in options', () => {
+      expect(() =>
+        resolveSync('../../../../../../../../../../../../../../../../../../../../../', {
+          fileName: 'tsconfig.json',
+        }),
+      ).toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('A different parent file name is specified in options', () => {
+      expect(() =>
+        resolveSync('../../../../../../../../../../../../../../../../../../../../../', {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).toThrow(/^Cannot find tsconfig\.build\.json file at the specified directory: /);
+    });
   });
 });

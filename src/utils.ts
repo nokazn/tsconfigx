@@ -50,6 +50,10 @@ export function normalizeJsonFileName(filePath: string): string {
   return path.extname(filePath) === '.json' ? filePath : `${filePath}.json`;
 }
 
+export function resolvePath(filePath: string | undefined): string {
+  return path.resolve(filePath || './');
+}
+
 /**
  * @param {string} basePath - path to a config file
  * @param {string} to - relative path or path to a npm package

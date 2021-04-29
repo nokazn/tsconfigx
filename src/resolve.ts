@@ -1,6 +1,14 @@
 import * as path from 'path';
-import { stat, statSync, isFile, isDir, existPathAsDir, existPathAsDirSync } from './utils';
-import { Options } from './types';
+import {
+  stat,
+  statSync,
+  isFile,
+  isDir,
+  existPathAsDir,
+  existPathAsDirSync,
+  resolvePath,
+} from './utils';
+import type { Options } from './types';
 
 const TS_CONFIG = 'tsconfig.json';
 
@@ -96,7 +104,8 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
  * @return {string} path to a config
  */
 export async function resolve(cwd?: string, options?: Options): Promise<string> {
-  return resolver(cwd || './', options);
+  const resolvedCwd = resolvePath(cwd);
+  return resolver(resolvedCwd, options);
 }
 
 function resolverSync(cwd: string, options?: ResolverOptions): string {
@@ -181,5 +190,6 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
  * @return {string} path to a config
  */
 export function resolveSync(cwd?: string, options?: Options): string {
-  return resolverSync(cwd || './', options);
+  const resolvedCwd = resolvePath(cwd);
+  return resolverSync(resolvedCwd, options);
 }

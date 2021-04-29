@@ -189,6 +189,7 @@ describe('resolve', () => {
         /Cannot find invalid-tsconfig\.json file at the specified directory: /,
       );
     });
+
     it('An invalid file name is specified in options', () => {
       expect(
         resolve(relativePath('fixtures/normal'), {
@@ -196,6 +197,7 @@ describe('resolve', () => {
         }),
       ).rejects.toThrow(/^Cannot find invalid-tsconfig\.json file at the specified directory: /);
     });
+
     it('An empty file name is specified in options', () => {
       expect(
         resolve(relativePath('fixtures/normal'), {
@@ -203,6 +205,7 @@ describe('resolve', () => {
         }),
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
     });
+
     it('An invalid way of specifying directory in options', () => {
       expect(
         // @ts-expect-error
@@ -210,6 +213,34 @@ describe('resolve', () => {
           fileName: 'normal',
         }),
       ).rejects.toThrow(/^The specified file does not exist, but a directory exists: /);
+    });
+
+    it('cwd is specified as a parent file', () => {
+      expect(() =>
+        resolve('../../../../../../../../../../../../../../../../../../../../../tsconfig.json'),
+      ).rejects.toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('cwd is specified as a parent directory', () => {
+      expect(() =>
+        resolve('../../../../../../../../../../../../../../../../../../../../../'),
+      ).rejects.toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('A parent file name is specified in options', () => {
+      expect(() =>
+        resolve('../../../../../../../../../../../../../../../../../../../../../', {
+          fileName: 'tsconfig.json',
+        }),
+      ).rejects.toThrow(/^Cannot find tsconfig\.json file at the specified directory: /);
+    });
+
+    it('A different parent file name is specified in options', () => {
+      expect(() =>
+        resolve('../../../../../../../../../../../../../../../../../../../../../', {
+          fileName: 'tsconfig.build.json',
+        }),
+      ).rejects.toThrow(/^Cannot find tsconfig\.build\.json file at the specified directory: /);
     });
   });
 });
