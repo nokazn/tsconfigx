@@ -12,16 +12,16 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
   const recursive = options?.recursive ?? true;
   const specifiedFileName = options?.fileName;
 
-  // fileName is specified
+  // `fileName` is specified
   if (specifiedFileName != null) {
     const specifiedPath = path.resolve(cwd, specifiedFileName);
     const ensuredSpecifiedPath = await stat(specifiedPath).then((stats) => {
       if (stats != null) {
-        // cwd includes a file or options.fileName is specified, and stats is file
+        // `cwd` includes a file or `options.fileName` is specified, and stats is file
         if (isFile(stats)) {
           return specifiedPath;
         }
-        // cwd indicates a directory or options.fileName is specified, and stats is directory
+        // `cwd` indicates a directory or `options.fileName` is specified, and stats is directory
         if (isDir(stats)) {
           throw new TypeError(
             `The specified file does not exist, but a directory exists: ${specifiedPath}`,
@@ -54,11 +54,11 @@ async function resolver(cwd: string, options?: ResolverOptions): Promise<string>
 
   return stat(cwd).then((stats) => {
     if (stats != null) {
-      // cwd includes a file or options.fileName is specified, and stats is file
+      // `cwd` includes a file or `options.fileName` is specified, and stats is file
       if (isFile(stats)) {
         return cwd;
       }
-      // cwd indicates a directory or options.fileName is specified, and stats is directory
+      // `cwd` indicates a directory or `options.fileName` is specified, and stats is directory
       if (isDir(stats)) {
         return resolver(cwd, {
           ...options,
@@ -105,11 +105,11 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
     const specifiedPath = path.resolve(cwd, specifiedFileName);
     const stats = statSync(specifiedPath);
     if (stats != null) {
-      // cwd indicates a file or options.fileName is specified, and stats is file
+      // `cwd` indicates a file or `options.fileName` is specified, and stats is file
       if (isFile(stats)) {
         return specifiedPath;
       }
-      // cwd indicates a directory or options.fileName is specified, and stats is directory
+      // `cwd` indicates a directory or `options.fileName` is specified, and stats is directory
       if (isDir(stats)) {
         throw new TypeError(
           `The specified file does not exist, but a directory exists: ${specifiedPath}`,
@@ -119,7 +119,7 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
     if (recursive) {
       const isCwdDir = existPathAsDirSync(cwd);
       const parentDir = path.dirname(cwd);
-      // cwd is a directory and not root
+      // `cwd` is a directory and not root
       if (isCwdDir && parentDir !== cwd) {
         return resolverSync(parentDir, {
           extendsFrom: cwd,
@@ -137,11 +137,11 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
 
   const stats = statSync(cwd);
   if (stats != null) {
-    // cwd indicates a file or options.fileName is specified, and stats is file
+    // `cwd` indicates a file or `options.fileName` is specified, and stats is file
     if (isFile(stats)) {
       return cwd;
     }
-    // cwd indicates a directory or options.fileName is specified, and stats is directory
+    // `cwd` indicates a directory or `options.fileName` is specified, and stats is directory
     if (isDir(stats)) {
       return resolverSync(cwd, {
         ...options,
@@ -149,11 +149,10 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
       });
     }
   }
-  // specify cwd as a file, and search recursively
+  // specify `cwd` as a file, and search recursively
   if (recursive) {
     const parentDir = path.dirname(cwd);
-    const fileName = path.basename(cwd);
-    // cwd is not root directory
+    // `cwd` is not root directory
     if (parentDir !== cwd) {
       return resolverSync(parentDir, {
         extendsFrom: parentDir,
@@ -162,7 +161,9 @@ function resolverSync(cwd: string, options?: ResolverOptions): string {
       });
     }
     throw new TypeError(
-      `Cannot find ${fileName} file at the specified directory: ${options?.extendsFrom ?? cwd}`,
+      `Cannot find ${fileName ?? 'config'} file at the specified directory: ${
+        options?.extendsFrom ?? cwd
+      }`,
     );
   }
   throw new TypeError(`The specified file does not exist: ${cwd}`);

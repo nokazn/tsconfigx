@@ -58,7 +58,7 @@ export function extendedTsconfigPath(basePath: string, to: string | undefined): 
   if (/^\.{1,2}\//.test(to)) {
     return path.resolve(path.dirname(basePath), to);
   }
-  // resolve as a path to NPM package
+  // resolve as a path to npm package
   const npmPackagePath = path.isAbsolute(to) ? to.replace(/^\/+/, '') : to;
   return require.resolve(npmPackagePath);
 }

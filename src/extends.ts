@@ -9,7 +9,7 @@ type History = Record<string, number>;
 interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {
   // child tsconfig.json file
   child?: string;
-  // for detecting circular dependency in extends
+  // for detecting circular dependency in `extends`
   history?: History;
 }
 
