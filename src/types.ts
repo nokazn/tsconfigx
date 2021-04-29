@@ -1,3 +1,5 @@
+import type { TsConfigOptions } from 'ts-node/';
+
 export interface Options {
   /**
    * @default 'tsconfig.json'
@@ -318,6 +320,5 @@ export interface ConfigOptions {
   files?: string[];
   references?: Reference[];
   typeAcquisition?: Partial<TypeAcquisition>;
-  // TODO
-  'ts-node'?: unknown;
+  'ts-node'?: TsConfigOptions;
 }
