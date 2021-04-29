@@ -1,8 +1,6 @@
-import merge from 'just-extend';
-
 import { parse } from '~/parse';
 import { readFile, readFileSync } from '~/readFile';
-import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName } from '~/utils';
+import { extendedTsconfigPath, hasExtendsProp, normalizeJsonFileName, mergeConfig } from '~/utils';
 import type { ReadFileOptions, LoadOptions, ConfigOptions } from '~/types';
 
 type History = Record<string, number>;
@@ -52,7 +50,7 @@ export async function extendedLoad(
       child: basePath,
       history,
     });
-    return merge(true, baseConfig, restConfig);
+    return mergeConfig(baseConfig, restConfig);
   }
   return config;
 }
@@ -80,7 +78,7 @@ export function extendedLoadSync(
       child: basePath,
       history,
     });
-    return merge(true, baseConfig, restConfig);
+    return mergeConfig(baseConfig, restConfig);
   }
   return config;
 }

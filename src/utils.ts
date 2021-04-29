@@ -63,6 +63,17 @@ export function extendedTsconfigPath(basePath: string, to: string | undefined): 
   return require.resolve(npmPackagePath);
 }
 
+export function mergeConfig(prev: ConfigOptions, curr: ConfigOptions): ConfigOptions {
+  return {
+    ...prev,
+    ...curr,
+    compilerOptions: {
+      ...prev.compilerOptions,
+      ...curr.compilerOptions,
+    },
+  };
+}
+
 export function hasProp<T extends string>(
   obj: unknown,
   type: T,
