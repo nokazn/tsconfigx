@@ -616,11 +616,6 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/just-extend@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@types/just-extend/-/just-extend-1.1.0.tgz#1dae177f58e35721cab85dbc07913b4713d66faa"
-  integrity sha512-vLX87iZxBulJ3dG5vpbM3kWVh8lBK8JCDFD68DaUYHgYGTBL9SqztLG29JLIRbE53ErwlwyaH7jUFxtxUkkTlg==
-
 "@types/node@*":
   version "14.14.20"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.20.tgz#f7974863edd21d1f8a494a73e8e2b3658615c340"
