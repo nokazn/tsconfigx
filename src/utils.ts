@@ -63,8 +63,8 @@ export function extendedTsconfigPath(basePath: string, to: string | undefined): 
   if (to == null) {
     return basePath;
   }
-  // start with './' or '../'
-  if (/^\.{1,2}\//.test(to)) {
+  // start with '.' or '..'
+  if (/^\.{1,2}/.test(to)) {
     return path.resolve(path.dirname(basePath), to);
   }
   // resolve as path to npm package

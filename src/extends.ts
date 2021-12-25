@@ -64,7 +64,7 @@ export function extendedLoadSync(
   try {
     raw = readFileSync(tsconfigPath, options);
   } catch (err) {
-    throw new TypeError(noEntryErrorMessage(err, options?.child));
+    throw new TypeError(noEntryErrorMessage(err as Error, options?.child));
   }
   const config = parse(raw);
   if (trackExtendsProp && hasExtendsProp(config)) {
