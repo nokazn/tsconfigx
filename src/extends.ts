@@ -5,9 +5,9 @@ import type { ReadFileOptions, LoadOptions, ConfigOptions } from './types';
 
 type History = Record<string, number>;
 interface ExtendedLoadOptions extends ReadFileOptions, LoadOptions {
-  // child tsconfig.json file
+  /** @description child tsconfig.json file */
   child?: string;
-  // for detecting circular dependency in `extends`
+  /** @description for detecting circular dependency in `extends` */
   history?: History;
 }
 

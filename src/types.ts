@@ -1,4 +1,4 @@
-import type { TsConfigOptions } from 'ts-node/';
+import type { TsConfigOptions } from 'ts-node';
 
 export interface Options {
   /**
@@ -27,9 +27,9 @@ export interface LoadOptions extends Options {
 }
 
 /**
+ * ----------------------------------------------------------------------------------------------------
  * Configuration options
  * See also https://www.typescriptlang.org/tsconfig
- * ____________________________________________________________________________________________________
  */
 
 type EcmaVersions = 3 | 5 | 6 | 7 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 'Next';
