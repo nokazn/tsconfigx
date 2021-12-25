@@ -12,13 +12,8 @@
     "url": "https://github.com/nokazn"
   },
   "sideEffects": false,
-  "exports": {
-    "require": "./lib/index.js",
-    "import": "./esm/index.js",
-    "default": "./lib/index.js"
-  },
   "main": "./lib/index.js",
-  "module": "./esm/index.js",
+  "module": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
@@ -26,7 +21,6 @@
   },
   "files": [
     "lib",
-    "esm",
     "src"
   ],
   "scripts": {
@@ -37,9 +31,8 @@
     "tsc": "tsc --noEmit",
     "test": "jest",
     "test:ci": "jest --ci",
-    "build:cjs": "rimraf dist/ && tsc -p ./tsconfig.cjs.json",
-    "build:esm": "rimraf dist/ && tsc -p ./tsconfig.esm.json",
-    "prepublish": "yarn build:cjs && yarn build:esm"
+    "build": "rimraf lib/ && tsc -p ./tsconfig.build.json",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "strip-bom": "^4.0.0",
